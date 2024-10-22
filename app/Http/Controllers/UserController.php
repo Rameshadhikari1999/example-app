@@ -85,6 +85,38 @@ class UserController extends Controller
     }
 
     public function jquery(){
-        return view('jquery');
+        $data = test::all();
+        return view('jquery', compact('data'));
+    }
+
+    public function jquerystore(Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $checkEmail = test::where('email', $request->email)->first();
+        if ($checkEmail) {
+            return response()->json(['message' => 'Email already exists']);
+        }
+
+        $data = new test();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/test/', $filename);
+            $data->image = $filename;
+        }
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+        $data->address = $request->address;
+        $data->save();
+        return response()->json(['message' => 'Data inserted successfully', 'data' => $request->all()]);
     }
 }

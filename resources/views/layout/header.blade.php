@@ -77,7 +77,7 @@
             margin-top: 20px;
             border: none;
             outline: none;
-            background: blue;
+            /* background: blue; */
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
@@ -89,6 +89,7 @@
             background: rgb(21, 169, 139);
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
 

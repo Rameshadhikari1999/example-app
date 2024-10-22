@@ -1,14 +1,10 @@
 {{-- @include('layout.header')
 <body> --}}
     @extends('layout.main')
-    <h1>Welcome to Home care nepal</h1>
 
-    {{-- navbar  --}}
-    <div class="container">
-        @include('navbar')
-    </div>
 
     {{-- Success MSG --}}
+    @section('content')
     <div class="container">
         @if (Session::has('success'))
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -66,7 +62,9 @@
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->address }}</td>
                     <td>
+                        @if($user->image)
                         <img src="{{ asset('uploads/test/'.$user->image) }}" alt="image" width="50px" height="50px">
+                        @endif
                     </td>
                     <td>
                         <a class="edit" href="/edit/{{ $user->id }}">Edit</a>
@@ -76,7 +74,7 @@
             @endforeach
         </tbody>
     </table>
-
+@endsection
 
 
 

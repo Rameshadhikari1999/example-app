@@ -29,3 +29,4 @@ Route::get('/edit/{id}', [UserController::class, 'edit']);
 Route::post('/update/{id}', [UserController::class, 'update']);
 
 Route::get('/jquery', [UserController::class, 'jquery']);
+Route::post('/jquery/store', [UserController::class, 'jquerystore']);
