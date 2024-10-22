@@ -1,5 +1,5 @@
 @extends('layout.main')
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 @section('content')
 
 <div class="container">
@@ -61,10 +61,42 @@
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#conformModal">Delete</button>
+                    <button type="button" class="btn btn-danger deleteBtn" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#conformModal">Delete</button>
                 </td>
             </tr>
         @endforeach
     </tbody>
 </table>
 @endsection
+
+<script>
+    $(document).ready(function () {
+        var userId;
+
+        $('.deleteBtn').on('click', function () {
+            userId = $(this).data('id');
+        });
+
+
+        $('#confirmDeleteBtn').on('click', function () {
+            // console.log(userId, 'user id');
+            $.ajax({
+                url: "{{ url('/jquery/delete/') }}/" + userId,
+                method: 'DELETE',
+                data: {
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function (response) {
+
+                    $('#conformModal').modal('hide');
+                    $('#successMessage').show();
+                    $('#successText').text(response.message);
+                    // location.reload();
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

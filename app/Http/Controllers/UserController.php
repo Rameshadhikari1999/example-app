@@ -119,4 +119,21 @@ class UserController extends Controller
         $data->save();
         return response()->json(['message' => 'Data inserted successfully', 'data' => $request->all()]);
     }
+
+    public function jquerydelete($id){
+        $data = test::findOrFail($id);
+
+        // Delete the user's image from storage
+        if ($data->image) {
+            $imagePath = public_path('uploads/test/' . $data->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Delete the data from the database
+        $data->delete();
+
+        return response()->json(['message' => 'Data deleted successfully']);
+    }
 }
