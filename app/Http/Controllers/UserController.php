@@ -136,4 +136,38 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Data deleted successfully']);
     }
+
+
+    public function jqueryedit($id){
+        $data = test::findOrFail($id);
+        return response()->json($data);
+    }
+
+
+    public function jqueryupdate(Request $request){
+        $data = test::findOrFail($request->id);
+
+        if ($request->hasFile('image')) {
+
+            if ($data->image) {
+                $imagePath = public_path('uploads/test/' . $data->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move('uploads/test/', $filename);
+            $data->image = $filename;
+        }
+
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+        $data->address = $request->address;
+        $data->save();
+        return response()->json(['message' => 'Data updated successfully']);
+}
 }

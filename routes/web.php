@@ -31,3 +31,5 @@ Route::post('/update/{id}', [UserController::class, 'update']);
 Route::get('/jquery', [UserController::class, 'jquery']);
 Route::post('/jquery/store', [UserController::class, 'jquerystore']);
 Route::delete('/jquery/delete/{id}', [UserController::class, 'jquerydelete']);
+Route::get('/jquery/edit/{id}', [UserController::class, 'jqueryedit']);
+Route::post('/jquery/update/{id}', [UserController::class, 'jqueryupdate']);
