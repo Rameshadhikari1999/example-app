@@ -88,53 +88,7 @@
 </div>
 
 
-{{-- <script>
-    $(document).ready(function () {
-        $('#submitBtn').click(function (e) {
-            e.preventDefault();
 
-            var form = $('#myForm')[0];
-            var formData = new FormData(form);
-
-            $.ajax({
-                url: "jquery/store",
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                dataType: "json",
-                success: function (response) {
-
-                    $('#errorList').empty();
-                    $('#errorMessage').hide();
-
-                    // Check if the request was successful
-                    if (response.message) {
-
-                        $('#successText').text(response.message);
-                        $('#successMessage').show();
-
-                        $('#exampleModal').modal('hide');
-                        $('#myForm')[0].reset();
-                    }
-                },
-                error: function (xhr, status, error) {
-
-                    if (xhr.responseJSON.errors) {
-                        $('#errorMessage').show();
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function (key, value) {
-                            $('#errorList').append('<li>' + value[0] + '</li>');
-                        });
-                        $('#exampleModal').modal('hide');
-                    } else {
-                        console.log(xhr.responseText);
-                    }
-                }
-            });
-        });
-    });
-</script> --}}
 
 
 

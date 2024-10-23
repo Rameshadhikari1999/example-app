@@ -94,9 +94,11 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
+            'phone' => ['required','regex:/^\d{10}$|^\d{13}$/'],
             'address' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ], [
+            'phone.regex' => 'The phone number must be either 10 or 13 digits with country code.'
         ]);
 
         $checkEmail = test::where('email', $request->email)->first();

@@ -10,7 +10,7 @@
     </div>
 
     <!-- Error Message -->
-    <div id="errorMessage" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
         <strong>Error:</strong>
         <ul id="errorList"></ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -159,6 +159,7 @@
                         $.each(errors, function (key, value) {
                             $('#errorList').append('<li>' + value[0] + '</li>');
                         });
+                        $('#exampleModal').modal('hide');
                     } else {
                         console.log(xhr.responseText);
                     }
