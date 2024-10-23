@@ -33,6 +33,13 @@
     </button>
 </div>
 
+{{-- search box and button  --}}
+<div class="container">
+    <div class="input-group mb-3 w-25">
+        <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+    </div>
+</div>
+
 {{-- Table Data --}}
 <table>
     <thead>
@@ -83,6 +90,14 @@
             }
             reader.readAsDataURL(this.files[0]);
         });
+
+        // handle search by name email or phone
+        $('#searchInput').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('tbody tr').filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        })
 
         // Function to open the modal for adding a new user
         $('#addNewBtn').on('click', function () {

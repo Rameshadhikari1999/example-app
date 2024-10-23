@@ -37,7 +37,6 @@ class UserController extends Controller
         $data->address = $request->address;
         $data->save();
         return redirect()->back()->with('success', 'Data inserted successfully.');
-
     }
 
     public function delete($id)
@@ -66,7 +65,7 @@ class UserController extends Controller
         ]);
 
         $data = test::find($request->id);
-        if(!$data){
+        if (!$data) {
             return redirect()->back()->with('error', 'Data not found.');
         }
         if ($request->hasFile('image')) {
@@ -84,17 +83,30 @@ class UserController extends Controller
         return redirect('/')->with('success', 'Data updated successfully.');
     }
 
-    public function jquery(){
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $data = test::where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%')
+            ->get();
+
+        return view('welcome', compact('data'));
+    }
+
+    public function jquery()
+    {
         $data = test::all();
         return view('jquery', compact('data'));
     }
 
-    public function jquerystore(Request $request){
+    public function jquerystore(Request $request)
+    {
 
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => ['required','regex:/^\d{10}$|^\d{13}$/'],
+            'phone' => ['required', 'regex:/^\d{10}$|^\d{13}$/'],
             'address' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ], [
@@ -123,7 +135,8 @@ class UserController extends Controller
         return response()->json(['message' => 'Data inserted successfully', 'data' => $allData]);
     }
 
-    public function jquerydelete($id){
+    public function jquerydelete($id)
+    {
         $data = test::findOrFail($id);
 
         // Delete the user's image from storage
@@ -141,13 +154,15 @@ class UserController extends Controller
     }
 
 
-    public function jqueryedit($id){
+    public function jqueryedit($id)
+    {
         $data = test::findOrFail($id);
         return response()->json($data);
     }
 
 
-    public function jqueryupdate(Request $request){
+    public function jqueryupdate(Request $request)
+    {
         $data = test::findOrFail($request->id);
 
         if ($request->hasFile('image')) {
@@ -172,5 +187,5 @@ class UserController extends Controller
         $data->address = $request->address;
         $data->save();
         return response()->json(['message' => 'Data updated successfully']);
-}
+    }
 }

@@ -40,6 +40,17 @@
         </button>
     </div>
 
+    {{-- search box with button  --}}
+    <div class="container">
+        <form action="/search" method="GET">
+            <div class="w-100 flex items-center mb-3">
+                <input type="text" class="form-control w-50" name="search" id="search" placeholder="Search.....">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="/" class="btn btn-danger">Reset</a>
+            </div>
+        </form>
+    </div>
+
     {{-- Table Data --}}
     <table>
         <thead>

@@ -27,6 +27,7 @@ Route::post('/store', [UserController::class, 'store']);
 Route::get('/delete/{id}', [UserController::class, 'delete']);
 Route::get('/edit/{id}', [UserController::class, 'edit']);
 Route::post('/update/{id}', [UserController::class, 'update']);
+Route::get('search', [UserController::class, 'search']);
 
 Route::get('/jquery', [UserController::class, 'jquery']);
 Route::post('/jquery/store', [UserController::class, 'jquerystore']);
