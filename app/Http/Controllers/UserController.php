@@ -101,7 +101,7 @@ class UserController extends Controller
 
         $checkEmail = test::where('email', $request->email)->first();
         if ($checkEmail) {
-            return response()->json(['message' => 'Email already exists']);
+            return response()->json(['errors' => 'Email already exists']);
         }
 
         $data = new test();

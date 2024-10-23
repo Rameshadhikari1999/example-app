@@ -145,6 +145,12 @@
                         $('#exampleModal').modal('hide');
                         $('#myForm')[0].reset();
                     }
+                    if(response.errors){
+                        $('#errorMessage').show();
+                        var errors = response.errors;
+                        $('#errorList').append('<li>' + errors + '</li>');
+                        $('#exampleModal').modal('hide');
+                    }
                 },
                 error: function (xhr) {
                     if (xhr.responseJSON.errors) {
