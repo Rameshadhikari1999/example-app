@@ -73,12 +73,25 @@
 <script>
     $(document).ready(function () {
 
+
+        // handle image upload
+        $('#image').change(function(e) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#currentImage').show();
+                $('#currentImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
         // Function to open the modal for adding a new user
         $('#addNewBtn').on('click', function () {
             $('#modalTitle').text('Add New Item');
             $('#submitBtn').text('Add');
             $('#myForm')[0].reset();
             $('#userId').val('');
+            $('#previousImage').hide();
+            $('#currentImage').hide();
             $('#exampleModal').modal('show');
         });
 
@@ -95,6 +108,8 @@
                     $('#email').val(response.email);
                     $('#phone').val(response.phone);
                     $('#address').val(response.address);
+                    $('#previousImage').show();
+                    $('#previousImage').attr('src', '/uploads/test/' + response.image);
                     $('#userId').val(response.id);
                     $('#exampleModal').modal('show');
                 }
@@ -129,7 +144,6 @@
 
                         $('#exampleModal').modal('hide');
                         $('#myForm')[0].reset();
-                        location.reload(); // Reload the page to reflect changes
                     }
                 },
                 error: function (xhr) {
@@ -173,7 +187,7 @@
                     $('#conformModal').modal('hide');
                     $('#successMessage').show();
                     $('#successText').text(response.message);
-                    location.reload();
+                    // location.reload();
                 },
                 error: function (error) {
                     console.error(error);

@@ -68,8 +68,14 @@
                         <input type="text" name="address" class="form-control" id="address">
                     </div>
                     <div class="mb-3">
+                        <img src="" name="previousImage" id="previousImage" alt="" width="50px" height="50px" style="display: none">
+                    </div>
+                    <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
                         <input type="file" name="image" class="form-control" id="image">
+                    </div>
+                    <div class="mb-3">
+                        <img src="" name="currentImage" id="currentImage" alt="" width="50px" height="50px" style="display: none">
                     </div>
                 </div>
                 <div class="modal-footer">

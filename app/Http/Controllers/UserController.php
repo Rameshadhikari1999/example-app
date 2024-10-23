@@ -117,7 +117,8 @@ class UserController extends Controller
         $data->phone = $request->phone;
         $data->address = $request->address;
         $data->save();
-        return response()->json(['message' => 'Data inserted successfully', 'data' => $request->all()]);
+        $allData = test::all();
+        return response()->json(['message' => 'Data inserted successfully', 'data' => $allData]);
     }
 
     public function jquerydelete($id){
