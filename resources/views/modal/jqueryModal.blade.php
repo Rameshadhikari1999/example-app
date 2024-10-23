@@ -1,4 +1,7 @@
-
+@php
+    use App\Models\State;
+    $states = State::all();
+@endphp
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -28,15 +31,33 @@
                         <label for="address" class="form-label">Address</label>
                         <input type="text" name="address" class="form-control" id="address">
                     </div>
+                    {{-- select state  --}}
                     <div class="mb-3">
                         <label for="image" class="form-label">Select State</label>
-                        {{-- <select name="state" id="state" class="form-control">
+                        <select name="state_id" id="state" class="form-select">
                             <option value="">Select State</option>
                             @foreach ($states as $state)
                                 <option value="{{ $state->id }}">{{ $state->name }}</option>
                             @endforeach
-                        </select> --}}
+                        </select>
                     </div>
+
+                    {{-- select district  --}}
+                    <div class="mb-3" id="districtDiv" style="display: none">
+                        <label for="image" class="form-label">Select District</label>
+                        <select name="district_id" id="district" class="form-select">
+                            <option value="">Select District</option>
+                        </select>
+                    </div>
+
+                    {{-- select municipality  --}}
+                    <div class="mb-3" id="municipalityDiv" style="display: none">
+                        <label for="image" class="form-label">Select Municipality</label>
+                        <select name="municipality_id" id="municipality" class="form-select">
+                            <option value="">Select Municipality</option>
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <img src="" name="previousImage" id="previousImage" alt="" width="50px" height="50px" style="display: none">
                     </div>
@@ -57,8 +78,40 @@
     </div>
 </div>
 
+<script>
+$(document).ready(function () {
+    $('#state').on('change', function () {
+        var stateId = $(this).val();
+        $.ajax({
+            url: '/getDistricts/' + stateId,
+            type: 'GET',
+            success: function (data) {
+                $('#districtDiv').show();
+                $('#district').empty();
+                $('#district').append('<option value="">Select District</option>');
+                $.each(data, function (index, district) {
+                    $('#district').append('<option value="' + district.id + '">' + district.name + '</option>');
+                });
+            }
+        });
+    });
 
-
-
+    $('#district').on('change', function () {
+        var districtId = $(this).val();
+        $.ajax({
+            url: '/getMunicipalities/' + districtId,
+            type: 'GET',
+            success: function (data) {
+                $('#municipalityDiv').show();
+                $('#municipality').empty();
+                $('#municipality').append('<option value="">Select Municipality</option>');
+                $.each(data, function (index, municipality) {
+                    $('#municipality').append('<option value="' + municipality.id + '">' + municipality.name + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
 
 

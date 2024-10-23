@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\test;
+use App\Models\State;
+use App\Models\District;
+use App\Models\Municipality;
 
 class UserController extends Controller
 {
@@ -187,5 +190,16 @@ class UserController extends Controller
         $data->address = $request->address;
         $data->save();
         return response()->json(['message' => 'Data updated successfully']);
+    }
+
+    public function getDistricts($stateId){
+        $districts = District::where('state_id', $stateId)->get();
+        return response()->json($districts);
+    }
+
+
+    public function getMunicipalities($districtId){
+        $municipalities = Municipality::where('district_id', $districtId)->get();
+        return response()->json($municipalities);
     }
 }

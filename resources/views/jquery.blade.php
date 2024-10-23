@@ -72,6 +72,9 @@
                 </td>
             </tr>
         @endforeach
+        <tr id="noData" style="display: none">
+            <td colspan="7">Data Not found</td>
+        </tr>
     </tbody>
 </table>
 @endsection
@@ -94,8 +97,18 @@
         // handle search by name email or phone
         $('#searchInput').on('keyup', function () {
             var value = $(this).val().toLowerCase();
+            var visibleRows = 0;
             $('tbody tr').filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                var isVisible = $(this).text().toLowerCase().indexOf(value) > -1;
+                $(this).toggle(isVisible);
+                if (isVisible) {
+                    visibleRows++;
+                }
+                if (visibleRows === 0) {
+                    $('#noData').show();
+                } else {
+                    $('#noData').hide();
+                }
             });
         })
 
@@ -138,7 +151,7 @@
             var form = $('#myForm')[0];
             var formData = new FormData(form);
             var id = $('#userId').val();
-
+            console.log(formData,'formData');
             var url = (id) ? '/jquery/update/' + id : 'jquery/store'; // Add if ID is empty, else Update
             var method = (id) ? 'POST' : 'POST'; // Use POST for both, but adjust server logic for update
 

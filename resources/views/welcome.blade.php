@@ -83,6 +83,11 @@
                     </td>
                 </tr>
             @endforeach
+            @if($data->count() == 0)
+                <tr>
+                    <td colspan="7">No Data Found</td>
+                </tr>
+            @endif
         </tbody>
     </table>
 @endsection
