@@ -4,10 +4,6 @@
 
 <div class="container">
     <!-- Success Message -->
-    {{-- <div id="successMessage" class="alert alert-success alert-dismissible fade show z-50" role="alert" style="display: none;">
-        <strong id="msgTitle"></strong> <span id="successText"></span>
-        <button type="button" class="btn-close" id="closeAlertBtn" aria-label="Close"></button>
-    </div> --}}
     <div id="successMessage" class="alert alert-success alert-dismissible fade show position-fixed w-25" role="alert" style=" display: none; top: 5%; right: 0%; transform: translateX(-0%); z-index: 2050;">
         <strong id="msgTitle"></strong> <span id="successText"></span>
         <button type="button" class="btn-close" id="closeAlertBtn" aria-label="Close"></button>
