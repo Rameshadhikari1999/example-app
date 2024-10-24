@@ -99,6 +99,7 @@ class UserController extends Controller
 
     public function jquery()
     {
+        // $data = test::paginate(2);
         $data = test::all();
         return view('jquery', compact('data'));
     }
@@ -111,14 +112,14 @@ class UserController extends Controller
             'email' => 'required|email',
             'phone' => ['required', 'regex:/^\d{10}$|^\d{13}$/'],
             'address' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ], [
             'phone.regex' => 'The phone number must be either 10 or 13 digits with country code.'
         ]);
 
         $checkEmail = test::where('email', $request->email)->first();
         if ($checkEmail) {
-            return response()->json(['errors' => 'Email already exists']);
+            return response()->json(['error' => 'Email already exists']);
         }
 
         $data = new test();
@@ -189,6 +190,7 @@ class UserController extends Controller
         $data->phone = $request->phone;
         $data->address = $request->address;
         $data->save();
+        view('components.table', compact('data'));
         return response()->json(['message' => 'Data updated successfully']);
     }
 

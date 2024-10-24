@@ -4,16 +4,21 @@
 
 <div class="container">
     <!-- Success Message -->
-    <div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-        <strong>Success:</strong> <span id="successText"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{-- <div id="successMessage" class="alert alert-success alert-dismissible fade show z-50" role="alert" style="display: none;">
+        <strong id="msgTitle"></strong> <span id="successText"></span>
+        <button type="button" class="btn-close" id="closeAlertBtn" aria-label="Close"></button>
+    </div> --}}
+    <div id="successMessage" class="alert alert-success alert-dismissible fade show position-fixed w-25" role="alert" style=" display: none; top: 5%; right: 0%; transform: translateX(-0%); z-index: 2050;">
+        <strong id="msgTitle"></strong> <span id="successText"></span>
+        <button type="button" class="btn-close" id="closeAlertBtn" aria-label="Close"></button>
     </div>
 
+
     <!-- Error Message -->
-    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show position-fixed w-25" role="alert" style="display: none; top: 5%; right: 0%; transform: translateX(-0%); z-index: 2050;">
         <strong>Error:</strong>
         <ul id="errorList"></ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" id="closeErrorAlertBtn" aria-label="Close"></button>
     </div>
 </div>
 
@@ -41,7 +46,7 @@
 </div>
 
 {{-- Table Data --}}
-<table>
+{{-- <table>
     <thead>
         <tr>
             <th>S/N</th>
@@ -76,7 +81,11 @@
             <td colspan="7">Data Not found</td>
         </tr>
     </tbody>
-</table>
+</table> --}}
+@include('components.table')
+<div class="container my-3">
+    {{-- {!! $data->appends(Request::all())->links() !!} --}}
+</div>
 @endsection
 
 {{-- add and update function  --}}
@@ -93,6 +102,22 @@
             }
             reader.readAsDataURL(this.files[0]);
         });
+
+        // handle showSuccessMessage function
+        function showSuccessMessage(message) {
+        $('#successText').text(message);
+        $('#successMessage').show();
+    }
+
+    // handle closeSuccessMessage function
+    $('#closeAlertBtn').click(function() {
+        $('#successMessage').hide();
+    });
+
+    // handle closeErrorAlert function
+    $('#closeErrorAlertBtn').click(function() {
+        $('#errorMessage').hide();
+    })
 
         // handle search by name email or phone
         $('#searchInput').on('keyup', function () {
@@ -120,6 +145,8 @@
             $('#userId').val('');
             $('#previousImage').hide();
             $('#currentImage').hide();
+            $('#districtDiv').hide();
+            $('#municipalityDiv').hide();
             $('#exampleModal').modal('show');
         });
 
@@ -130,6 +157,8 @@
                 url: '/jquery/edit/' + id,
                 method: 'GET',
                 success: function (response) {
+                    $('#districtDiv').hide();
+                    $('#municipalityDiv').hide();
                     $('#modalTitle').text('Update Item');
                     $('#submitBtn').text('Update');
                     $('#name').val(response.name);
@@ -151,9 +180,8 @@
             var form = $('#myForm')[0];
             var formData = new FormData(form);
             var id = $('#userId').val();
-            console.log(formData,'formData');
-            var url = (id) ? '/jquery/update/' + id : 'jquery/store'; // Add if ID is empty, else Update
-            var method = (id) ? 'POST' : 'POST'; // Use POST for both, but adjust server logic for update
+            var url = (id) ? '/jquery/update/' + id : 'jquery/store';
+            var method = (id) ? 'POST' : 'POST';
 
             $.ajax({
                 url: url,
@@ -167,27 +195,29 @@
                     $('#errorMessage').hide();
 
                     if (response.message) {
-                        $('#successText').text(response.message);
-                        $('#successMessage').show();
-
+                        $('#successMessage').addClass('alert-success');
+                        $('#successMessage').removeClass('alert-danger');
+                        $('#msgTitle').text('Success');
+                        showSuccessMessage(response.message);
                         $('#exampleModal').modal('hide');
                         $('#myForm')[0].reset();
                     }
-                    if(response.errors){
-                        $('#errorMessage').show();
-                        var errors = response.errors;
-                        $('#errorList').append('<li>' + errors + '</li>');
-                        $('#exampleModal').modal('hide');
+                    else{
+                        $('#successMessage').removeClass('alert-success');
+                        $('#successMessage').addClass('alert-danger');
+                        $('#msgTitle').text('Error');
+                        showSuccessMessage(response.error);
                     }
                 },
                 error: function (xhr) {
                     if (xhr.responseJSON.errors) {
                         $('#errorMessage').show();
+                        $('#errorList').empty();
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function (key, value) {
                             $('#errorList').append('<li>' + value[0] + '</li>');
                         });
-                        $('#exampleModal').modal('hide');
+                        // $('#exampleModal').modal('hide');
                     } else {
                         console.log(xhr.responseText);
                     }
